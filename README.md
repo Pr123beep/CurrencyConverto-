@@ -131,6 +131,7 @@ Replace the key with your own for production use if needed.
 ## 🙌 Acknowledgments
 - [ExchangeRate-API](https://www.exchangerate-api.com/) for currency data.
 - Inspiration from modern fintech applications.
+- This project is completely made and is worked on by PRATHAM JAIN.
 
 ---
 
