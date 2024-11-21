@@ -1,7 +1,7 @@
 import { currency_list } from "./codescurr.js";
-// Check if service workers are supported
+
+// Register the service worker for offline support
 if ("serviceWorker" in navigator) {
-    // Register the service worker
     navigator.serviceWorker.register("./service-worker.js")
         .then((registration) => {
             console.log("Service Worker registered with scope:", registration.scope);
@@ -13,7 +13,7 @@ if ("serviceWorker" in navigator) {
     console.log("Service Workers are not supported in this browser.");
 }
 
-
+// DOM elements
 const fromCurrencySelectTag = document.querySelector("#fromCurrency");
 const toCurrencySelectTag = document.querySelector("#toCurrency");
 const resultTag = document.querySelector("#result");
@@ -43,6 +43,11 @@ document.getElementById("switchCurrency").onclick = () => {
     const fromValue = fromCurrencySelectTag.value;
     fromCurrencySelectTag.value = toCurrencySelectTag.value;
     toCurrencySelectTag.value = fromValue;
+
+    // Add a quick rotation animation for user feedback
+    const switchBtn = document.getElementById("switchCurrency");
+    switchBtn.style.animation = "rotate 0.5s";
+    setTimeout(() => (switchBtn.style.animation = ""), 500);
 };
 
 // Handle conversion button click
@@ -50,19 +55,16 @@ btn.onclick = () => {
     const numberInputField = document.getElementById("userVal");
     const userEnteredAmount = parseFloat(numberInputField.value);
 
-    // Validate input
-    if (userEnteredAmount < 1 || isNaN(userEnteredAmount)) {
-        numberInputField.style.border = "1px solid red";
-        resultTag.style.color = "red";
-        resultTag.textContent = "Error: Only numeric values greater than 0 are allowed.";
-    } else {
-        numberInputField.style.border = "1px solid gray";
-        resultTag.style.color = "black";
-        btn.textContent = "Processing: have patience...";
-        btn.disabled = true;
-        btn.style.color = "gray";
-        btn.style.cursor = "not-allowed";
+    // Add button animation
+    btn.style.animation = "pulse 1s infinite";
 
+    // Validate input
+    if (userEnteredAmount <= 0 || isNaN(userEnteredAmount)) {
+        btn.style.animation = ""; // Stop animation on error
+        resultTag.textContent = "Error: Enter a valid amount greater than 0.";
+        resultTag.style.color = "red";
+    } else {
+        resultTag.textContent = ""; // Clear error message
         convertAmount(userEnteredAmount);
     }
 };
@@ -78,19 +80,18 @@ function convertAmount(amount) {
             const perRate = (toRates / fromRates).toFixed(2);
             const convertedAmount = (amount * perRate).toFixed(2);
 
-            // Update UI
-            resultTag.style.color = "black";
-            status.textContent = `1 ${fromCurrencySelectTag.value} = ${perRate} ${toCurrencySelectTag.value}`;
+            // Update result UI
+            resultTag.style.color = "#009688";
             resultTag.textContent = `${amount} ${fromCurrencySelectTag.value} = ${convertedAmount} ${toCurrencySelectTag.value}`;
+            status.textContent = `1 ${fromCurrencySelectTag.value} = ${perRate} ${toCurrencySelectTag.value}`;
 
             // Reset button state
-            btn.disabled = false;
-            btn.style.color = "black";
-            btn.style.cursor = "pointer";
-            btn.textContent = "Convert";
+            btn.style.animation = ""; // Stop pulse animation
         })
         .catch((error) => {
-            console.error(`Additional information about error: ${error}`);
+            resultTag.style.color = "red";
+            resultTag.textContent = `Error fetching conversion rates: ${error}`;
+            btn.style.animation = ""; // Stop pulse animation
         });
 }
 
@@ -98,13 +99,26 @@ function convertAmount(amount) {
 async function fetchData(url) {
     try {
         const response = await fetch(url);
-
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
-        resultTag.style.color = "red";
-        resultTag.textContent = `Fetch API Error: ${error}`;
         throw error;
     }
 }
+
+// Keyframes for button pulse animation
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(`
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+`, styleSheet.cssRules.length);
+
+styleSheet.insertRule(`
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`, styleSheet.cssRules.length);
