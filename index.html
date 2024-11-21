@@ -12,18 +12,19 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="title">Converto</h1>
-        <img src="./Converto.png" id="coinSticker" alt="coin exchange stickers">
-        <input type="number" id="userVal" min="1" name="userInput" placeholder="100">
-        <div class="selectorContainer">
-            <select id="fromCurrency" name="fromCurrency" title="Convert From"></select>
-            <button type="button" id="switchCurrency">🔁</button>
-            <select id="toCurrency" name="toCurrency" title="Convert To"></select>
-        </div>
-        <p id="status"></p>
-        <button type="button" id="btn">ConvertO</button>
-        <p id="result"></p>
+    <h1 id="title">Converto</h1>
+    <img src="./Converto.png" id="coinSticker" alt="coin exchange stickers">
+    <input type="number" id="userVal" min="1" name="userInput" placeholder="Enter amount here">
+    <div class="selectorContainer">
+        <select id="fromCurrency" name="fromCurrency" title="Convert From"></select>
+        <button type="button" id="switchCurrency">🔄</button>
+        <select id="toCurrency" name="toCurrency" title="Convert To"></select>
     </div>
+    <p id="status">Select currencies and click convert</p>
+    <button type="button" id="btn">Convert Now</button>
+    <p id="result"></p>
+</div>
+
     <script type="module" src="./script.js" defer></script>
 </body>
 </html>
