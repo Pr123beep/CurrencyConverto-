@@ -16,7 +16,7 @@ Currency Converto is a sleek and user-friendly Progressive Web App (PWA) for con
 ---
 
 ## 🖼️ Demo
-[Live Demo on Netlify](https://thunderous-dolphin-da7ae4.netlify.app)
+[Live Demo on Netlify](https://my-curr-converto.netlify.app)
 
 ---
 
