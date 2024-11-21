@@ -127,12 +127,6 @@ Replace the key with your own for production use if needed.
    ```
 5. Create a pull request on GitHub.
 
----
-
-## 📄 License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
 
 ## 🙌 Acknowledgments
 - [ExchangeRate-API](https://www.exchangerate-api.com/) for currency data.
