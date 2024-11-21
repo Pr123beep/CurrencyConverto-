@@ -1,0 +1,20 @@
+{
+    "name": "Currency Converto",
+    "short_name": "Converto",
+    "icons": [
+        {
+            "src": "./Converto.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./Converto.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4ddfe7"
+}
