@@ -1,6 +1,6 @@
 import { currency_list } from "./codescurr.js";
 
-// Register the service worker for offline support
+//Service worker register
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js")
         .then((registration) => {
@@ -13,63 +13,63 @@ if ("serviceWorker" in navigator) {
     console.log("Service Workers are not supported in this browser.");
 }
 
-// DOM elements
+// DOM's
 const fromCurrencySelectTag = document.querySelector("#fromCurrency");
 const toCurrencySelectTag = document.querySelector("#toCurrency");
 const resultTag = document.querySelector("#result");
 const btn = document.querySelector("#btn");
 const status = document.querySelector("#status");
 
-// Populate currency dropdowns
+// currency dropdowns hai yeh
 currency_list.forEach((currency) => {
     const code = currency[0];
     const countryName = currency[1];
 
-    // Create "From" currency option
+    // "From" Currency bnaya
     const newElement = document.createElement("option");
     newElement.value = code;
     newElement.textContent = `${code} - ${countryName}`;
     if (code === "USD") newElement.selected = true;
     fromCurrencySelectTag.append(newElement);
 
-    // Clone for "To" currency
+    // "To" me clone kiya
     const newElementTo = newElement.cloneNode(true);
     if (code === "INR") newElementTo.selected = true;
     toCurrencySelectTag.append(newElementTo);
 });
 
-// Handle currency switch
+// switched the currency
 document.getElementById("switchCurrency").onclick = () => {
     const fromValue = fromCurrencySelectTag.value;
     fromCurrencySelectTag.value = toCurrencySelectTag.value;
     toCurrencySelectTag.value = fromValue;
 
-    // Add a quick rotation animation for user feedback
+    // rotate
     const switchBtn = document.getElementById("switchCurrency");
     switchBtn.style.animation = "rotate 0.5s";
     setTimeout(() => (switchBtn.style.animation = ""), 500);
 };
 
-// Handle conversion button click
+// button convert
 btn.onclick = () => {
     const numberInputField = document.getElementById("userVal");
     const userEnteredAmount = parseFloat(numberInputField.value);
 
-    // Add button animation
+    
     btn.style.animation = "pulse 1s infinite";
 
-    // Validate input
+    // input ka validation
     if (userEnteredAmount <= 0 || isNaN(userEnteredAmount)) {
-        btn.style.animation = ""; // Stop animation on error
+        btn.style.animation = ""; 
         resultTag.textContent = "Error: Enter a valid amount greater than 0.";
         resultTag.style.color = "red";
     } else {
-        resultTag.textContent = ""; // Clear error message
+        resultTag.textContent = "";
         convertAmount(userEnteredAmount);
     }
 };
 
-// Function to convert currency
+// currency convert kiya
 function convertAmount(amount) {
     const apiURL = `https://v6.exchangerate-api.com/v6/64aed746af1c53de24bd4cf3/latest/USD`;
 
@@ -86,16 +86,16 @@ function convertAmount(amount) {
             status.textContent = `1 ${fromCurrencySelectTag.value} = ${perRate} ${toCurrencySelectTag.value}`;
 
             // Reset button state
-            btn.style.animation = ""; // Stop pulse animation
+            btn.style.animation = ""; 
         })
         .catch((error) => {
             resultTag.style.color = "red";
             resultTag.textContent = `Error fetching conversion rates: ${error}`;
-            btn.style.animation = ""; // Stop pulse animation
+            btn.style.animation = "";
         });
 }
 
-// Fetch data from API
+//data fetch Api
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -105,8 +105,7 @@ async function fetchData(url) {
         throw error;
     }
 }
-
-// Keyframes for button pulse animation
+//sundarta increased
 const styleSheet = document.styleSheets[0];
 styleSheet.insertRule(`
     @keyframes pulse {
